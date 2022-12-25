@@ -23,7 +23,7 @@ commands:
             aws cloudformation delete-stack --stack-name capstone-project-<<parameters.workflow_id>>-cluster
 
 jobs:
-  install-and-check-lint:
+  check-lint:
     docker:
       - image: python:3.7.3-stretch
     steps:
@@ -84,7 +84,7 @@ jobs:
       - run:
           name: deploy cluster
           command: |
-            eksctl create cluster --name capstone-proj-${CIRCLE_WORKFLOW_ID:0:7} --region us-east-1 
+            eksctl create cluster --name capstone-project-${CIRCLE_WORKFLOW_ID:0:7} --region us-east-1 
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}  
 
@@ -110,14 +110,14 @@ jobs:
             sudo ./aws/install
       - kubernetes/install-kubectl
       - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: capstone-proj-${CIRCLE_WORKFLOW_ID:0:7}
+          cluster-name: capstone-project-${CIRCLE_WORKFLOW_ID:0:7}
           install-kubectl: true
       - kubernetes/create-or-update-resource:
           resource-file-path: "kubernetes/capstone-frontend-deployment.yml"
-          resource-name: deployment/capstone-proj
+          resource-name: deployment/capstone-project
       - kubernetes/create-or-update-resource:
           resource-file-path: "kubernetes/capstone-frontend-service.yml"
-          resource-name: deployment/capstone-proj
+          resource-name: deployment/capstone-project
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
@@ -125,7 +125,7 @@ jobs:
     executor: aws-eks/python3
     steps:
       - aws-eks/update-kubeconfig-with-authenticator:
-          cluster-name: capstone-proj-${CIRCLE_WORKFLOW_ID:0:7}
+          cluster-name: capstone-project-${CIRCLE_WORKFLOW_ID:0:7}
           install-kubectl: true
           aws-region: ${AWS_DEFAULT_REGION}
       - run:
@@ -178,9 +178,9 @@ jobs:
 workflows:
   default:
     jobs:
-      - install-and-check-lint
+      - check-lint
       - build-docker-image:
-          requires: [install-and-check-lint]
+          requires: [check-lint]
           filters:
             branches:
               only: [main]
