@@ -1,7 +1,7 @@
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/mtan11/udacity-capstone/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/mtan11/udacity-capstone/tree/main)
 # Cloud DevOps Engineer Capstone Project
 This project represents the successful completion of the last final Capstone project and the Cloud DevOps Engineer Nanodegree at Udacity.
-
+URL: http://ae6dfecc55c1548c4bdc31a55984fbd6-830603826.us-east-1.elb.amazonaws.com/index
 # Project Overview
 In this project, I use all skill that I learn in this course to do. Just use a simple flask app to practice devops skill. This will use aws-eks to deploy the source code.
 
