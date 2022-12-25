@@ -185,7 +185,7 @@ workflows:
             branches:
               only: [main]
       - deploy-infrastructure:
-          requires: [build-and-push-docker-image]
+          requires: [build-docker-image]
       - deploy-config:
           requires: [deploy-infrastructure]
       - smoke-test:
